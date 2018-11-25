@@ -10,7 +10,9 @@ Here I implement:
   - a commandline tool for transferring style of one image to another
   - a set of reproducible experiments to observe convergence and effects of some paramters
 
-To see results of this implementation, go to `example` directory.
+![Example output](https://github.com/maaario/unsupervised-image-translation/blob/master/example/5.png)
+
+Mmore detailed results of this implementation, can be found in [`example`](https://github.com/maaario/unsupervised-image-translation/blob/master/example) directory.
 
 ## How to run it
 ```
@@ -21,13 +23,13 @@ virtualenv -p python3 env
 . env/bin/activate
 
 # Install necessary modules.
-pip install -r requirements
+pip install -r requirements.txt
 
 # Compile loopy belief propagation in C++
 python setup.py install
 
 # Run
-python src/unsupervised_image_translation/main.py -input=../../inputs/ramona-color.png -source=../../inputs/starry-night.png
+python src/unsupervised_image_translation/main.py -input=inputs/ramona-color.png -source=inputs/starry-night.png
 
 # To list all arguments
 python src/unsupervised_image_translation/main.py -h
