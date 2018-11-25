@@ -1,6 +1,6 @@
 # unsupervised-image-translation
 A re-implementation of a paper which uses graphical models for transferring style between images
-as my final project for course Graphical Models in Machine Learning, spring 2016/2017.
+as my final project for course Graphical Models in Machine Learning, spring 2016/2017. Tweaked and polished in 2018.
 
 [Unsupervised Image Translation, Rómer Rosales, Kannan Achan, and Brendan Frey, 2003](http://people.csail.mit.edu/romer/papers/RosalesAchanFrey_ICCV03.pdf)
 
@@ -12,20 +12,20 @@ Here I implement:
 
 ![Example output](https://github.com/maaario/unsupervised-image-translation/blob/master/example/5.png)
 
-Mmore detailed results of this implementation, can be found in [`example`](https://github.com/maaario/unsupervised-image-translation/blob/master/example) directory.
+More detailed results of this implementation, can be found in [`example`](https://github.com/maaario/unsupervised-image-translation/blob/master/example) directory.
 
 ## How to run it
 ```
 cd unsupervised-image-translation
 
-# Create a virtual envirnoment.
+# Create a virtual environment
 virtualenv -p python3 env
 . env/bin/activate
 
-# Install necessary modules.
+# Install necessary modules
 pip install -r requirements.txt
 
-# Compile loopy belief propagation in C++
+# Compile loopy belief propagation written in C++
 python setup.py install
 
 # Run
