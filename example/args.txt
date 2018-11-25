@@ -1,0 +1,14 @@
+-init_transformations=id \
+-input=LA-smaller.jpg \
+-output=output_la_starry \
+-patch_size=25 \
+-lbp_two_sigma2=0.01 \
+-lbp_iterations=6 \
+-source=starry-night-big.jpg \
+-num_candidates=32 \
+-pca_k=100 \
+-patch_overlap=4 \
+-em_iterations=5 \
+-color=color \
+-num_transformations=5 \
+-random_seed=0 \
