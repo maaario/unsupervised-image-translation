@@ -194,12 +194,38 @@ class EM:
         
         self.probs = new_probs / np.sum(new_probs, axis=(1, 2), keepdims=True)      
     
+    def compute_maximized_term(self):
+        """
+        Computes term that the maximization tries to maximize:
+        sum through patches, sum through all parameters l, t: 
+            posterior P(t_p, l_p) * log P(y_p | t_p, l_p).
+        Currently the pdf for some p, t, l is >> 1 (probably because of small 
+        values in covariance matrices)
+        """
+        result = 0
+
+        conditionals = np.zeros(self.probs.shape)
+        for p in range(self.patches.patch_count):
+            for t in range(self.num_candidates):
+                patch = self.patches.compact_dictionary_vectors[
+                    self.candidate_indices[p][t]]
+                for l in range(self.num_transformations):
+                    transformed_patch = np.matmul(self.lambdas[l], patch)
+                    conditionals[p][t][l] = multivariate_normal.pdf(
+                        self.patches.compact_observed_vectors[p], 
+                        mean=transformed_patch, 
+                        cov=self.psis[p],
+                        allow_singular=True,
+                    )
+        conditionals[conditionals == 0] = 1e-200
+
+        return np.sum(self.probs * np.log(conditionals))
+
     def recompute_lambdas(self):
         self.lambdas = np.zeros(self.lambdas.shape)
-
-        for l in range(self.num_transformations):
-            lambda_denominator = np.zeros(self.lambdas[l].shape)
-                        
+        lambda_denominator = np.zeros(self.lambdas[0].shape)
+            
+        for l in range(self.num_transformations):             
             for p in range(self.patches.patch_count):
                 candidates = self.patches.compact_dictionary_vectors[
                     self.candidate_indices[p]]
@@ -211,16 +237,16 @@ class EM:
                     )
 
                     lambda_denominator += (
-                        self.probs[p, t, l] * 
+                        self.probs[p, t, l] *
                         np.outer(candidates[t], candidates[t])
                     )
 
         lambda_denominator = np.linalg.inv(lambda_denominator)
-
+        
         for l in range(self.num_transformations):
             self.lambdas[l] = self.lambdas[l].dot(lambda_denominator)
 
-    def recompute_psis(self):  
+    def recompute_psis(self):
         self.psis = np.zeros([self.patches.patch_count, 
                               self.patches.pca_k, self.patches.pca_k])
             
@@ -236,7 +262,9 @@ class EM:
                     self.psis[p] += ( 
                         self.probs[p, t, l] * np.outer(diff, diff)
                     )
-
+        
+        # This renormalization does not make sense / should not be necessary 
+        # in the paper if probabilities are already normalized.
         self.psis /= np.sum(self.probs, axis=(1, 2), keepdims=True)
     
     def maximization(self):

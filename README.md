@@ -1,6 +1,6 @@
 # unsupervised-image-translation
 A re-implementation of a paper which uses graphical models for transferring style between images
-as my final project for course Graphical Models in Machine Learning, spring 2016/2017. Tweaked and polished in 2018.
+as my final project for course Graphical Models in Machine Learning, spring 2017. Tweaked and polished in 2018.
 
 [Unsupervised Image Translation, Rómer Rosales, Kannan Achan, and Brendan Frey, 2003](http://people.csail.mit.edu/romer/papers/RosalesAchanFrey_ICCV03.pdf)
 
